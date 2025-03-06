@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Infinite Bubble Pop Game</title>
+    <title>3D Catch Game</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
-        body { margin: 0; overflow: hidden; background: radial-gradient(circle, #1a1a1a, #000000); }
+        body { margin: 0; overflow: hidden; background: #1a1a1a; font-family: Arial, sans-serif; }
         canvas { display: block; }
+        #score { position: absolute; top: 10px; left: 10px; color: white; font-size: 20px; font-weight: bold; }
     </style>
 </head>
 <body>
+    <div id="score">Score: 0</div>
+    <audio id="catchSound" src="https://www.fesliyanstudios.com/play-mp3/4385"></audio>
+    <audio id="missSound" src="https://www.fesliyanstudios.com/play-mp3/4386"></audio>
     <script>
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -20,6 +24,9 @@
         
         const ambientLight = new THREE.AmbientLight(0xffffff, 1);
         scene.add(ambientLight);
+        
+        let score = 0;
+        const scoreElement = document.getElementById('score');
         
         const bubbles = [];
         const colors = [0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0xff00ff, 0x00ffff];
@@ -87,6 +94,8 @@
                 scene.remove(clickedBubble);
                 bubbles.splice(bubbles.indexOf(clickedBubble), 1);
                 createBubble(); // Create a new bubble to keep the game infinite
+                score++;
+                scoreElement.innerText = "Score: " + score;
             }
         });
     </script>
